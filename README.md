@@ -1,7 +1,12 @@
 # AeroStat · Real-time Airfare Price Index
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://aerostat-airfare-index.vercel.app)
+[![Status](https://img.shields.io/badge/Status-Live_Production-success?style=for-the-badge)](https://aerostat-airfare-index.vercel.app)
+
 > **High-Frequency Daily Domestic Airfare Index & Market Surveillance System**  
-> *Conceptualized for the Ministry of Statistics and Programme Implementation (MoSPI) · National Statistical Office (NSO) · Smart India Hackathon (SIH)*
+> *Conceptualized for the Ministry of Statistics and Programme Implementation (MoSPI) · National Statistical Office (NSO) · Smart India Hackathon (SIH)*  
+> 
+> 🔗 **Live Deployment**: [https://aerostat-airfare-index.vercel.app](https://aerostat-airfare-index.vercel.app)
 
 ---
 
@@ -116,12 +121,25 @@ Prototype/
 ├── apix-charts.js          # Standalone SVG chart rendering engine
 ├── apix-app.js             # Application router, UI interactions, and state
 ├── .gitattributes          # Git LFS & file type configurations
+├── .gitignore              # Ignored build & deployment artifacts
 └── README.md               # Project documentation
 ```
 
 ---
 
-## ⚡ Getting Started / Local Setup
+## 🌐 Live Production Deployment
+
+The prototype is deployed and hosted on Vercel:
+- **Live URL**: [https://aerostat-airfare-index.vercel.app](https://aerostat-airfare-index.vercel.app)
+
+To deploy your own instance to Vercel:
+```bash
+vercel --name aerostat-airfare-index --prod --yes
+```
+
+---
+
+## ⚡ Local Setup & Development
 
 No build step, package manager, or Node installation is strictly required. You can launch the application with any static web server:
 
