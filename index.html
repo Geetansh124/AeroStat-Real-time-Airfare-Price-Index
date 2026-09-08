@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1">
+<title>AeroStat · Real-time Airfare Price Index · MoSPI</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="apix-styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark-wrap">
+        <img src="logo-mark.png" alt="AeroStat" class="brand-mark-img">
+      </div>
+      <div class="brand-name">
+        <span class="title">AeroStat</span>
+        <span class="sub">MoSPI · NSO · DGCA</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-section">Index</div>
+      <a class="nav-item" data-target="overview">
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17V8l6-4 6 4 3-2v11"/><path d="M3 17h14"/></svg>
+        <span class="lbl">Overview</span>
+      </a>
+      <a class="nav-item" data-target="heatmap">
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="4" height="4"/><rect x="8.5" y="3" width="4" height="4"/><rect x="14" y="3" width="3" height="4"/><rect x="3" y="8.5" width="4" height="4"/><rect x="8.5" y="8.5" width="4" height="4"/><rect x="14" y="8.5" width="3" height="4"/><rect x="3" y="14" width="4" height="3"/><rect x="8.5" y="14" width="4" height="3"/></svg>
+        <span class="lbl">Sector heatmap</span>
+      </a>
+      <a class="nav-item" data-target="route">
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 15 L17 5"/><circle cx="4" cy="16" r="1.5"/><circle cx="16" cy="4" r="1.5"/><path d="M8 12 L12 12" stroke-dasharray="1.5 1.5"/></svg>
+        <span class="lbl">Route drill-down</span>
+      </a>
+      <a class="nav-item" data-target="elasticity">
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 16 Q7 4 17 4"/><path d="M3 17 L17 17"/></svg>
+        <span class="lbl">Lead-time curves</span>
+      </a>
+      <a class="nav-item" data-target="carriers">
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12 L18 6 L14 14 L9 11 Z"/><path d="M9 11 L7 17"/></svg>
+        <span class="lbl">Carrier compare</span>
+      </a>
+
+      <div class="nav-section">Quality & ops</div>
+      <a class="nav-item" data-target="backtest">
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17 L7 10 L11 14 L17 5"/><circle cx="17" cy="5" r="1"/></svg>
+        <span class="lbl">DGCA back-test</span>
+      </a>
+      <a class="nav-item" data-target="alerts">
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3 C6 3 6 7 6 9 C6 12 4 13 4 14 L16 14 C16 13 14 12 14 9 C14 7 14 3 10 3 Z"/><path d="M8 16 C8 17 9 18 10 18 C11 18 12 17 12 16"/></svg>
+        <span class="lbl">Alerts</span>
+      </a>
+      <a class="nav-item" data-target="scraper" data-scraper-only>
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5 L7 5 M13 5 L17 5 M3 10 L17 10 M3 15 L7 15 M13 15 L17 15"/><circle cx="10" cy="5" r="1.5"/><circle cx="10" cy="15" r="1.5"/></svg>
+        <span class="lbl">Scraper ops</span>
+      </a>
+      <a class="nav-item" data-target="pipeline">
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="8" width="3" height="4"/><rect x="8.5" y="8" width="3" height="4"/><rect x="15" y="8" width="3" height="4"/><path d="M5 10 L8.5 10 M11.5 10 L15 10"/></svg>
+        <span class="lbl">Pipeline & cleaning</span>
+      </a>
+
+      <div class="nav-section">Developer</div>
+      <a class="nav-item" data-target="api">
+        <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 5 L3 10 L7 15 M13 5 L17 10 L13 15"/></svg>
+        <span class="lbl">API console</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div><span class="status-dot"></span>All sources nominal</div>
+      <div style="margin-top: 4px;">Last scrape · 06:00 IST</div>
+      <div style="margin-top: 8px; opacity: 0.7;">v0.9.2-prototype</div>
+      <button class="btn btn-sm mt-8 w-100" id="btn-run-diagnostics" style="width: 100%; justify-content: center; font-size: 11px; padding: 5px 8px; margin-top: 10px; font-family: var(--font-mono);" title="Run automated diagnostic test on all buttons">
+        <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 3 L10 3 M8 3 L8 9 M4 13 L12 13 M6 9 L4 13 M10 9 L12 13"/></svg>
+        Test All Buttons
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============== MAIN ============== -->
+  <main class="main">
+    <div class="topbar">
+      <div class="crumbs">
+        <img src="logo-mark.png" alt="AeroStat" class="crumb-mark">
+        <span class="crumb-brand">AeroStat</span>
+        <span class="sep">/</span>
+        <span class="cur" id="crumb-current">Overview</span>
+      </div>
+
+      <div class="topbar-spacer"></div>
+
+      <div class="topbar-tools">
+        <div class="pill-group" id="topbar-range-pills">
+          <div class="p" data-range="7d">7D</div>
+          <div class="p" data-range="30d">30D</div>
+          <div class="p active" data-range="90d">90D</div>
+        </div>
+        <button class="chip topbar-btn" id="btn-date-picker" title="Select date range">
+          <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="3" width="12" height="11" rx="1"/><path d="M2 6 L14 6 M5 2 L5 4 M11 2 L11 4"/></svg>
+          <span id="date-picker-label">10 Jun – 7 Sep 2026</span>
+        </button>
+        <button class="chip topbar-btn" id="btn-currency-toggle" title="Switch display currency">
+          <span class="mono" style="font-weight: 600; color: var(--accent);" id="currency-label">INR</span> <span id="currency-symbol">₹</span>
+        </button>
+        <button class="btn" id="btn-export-data" title="Export datasets and reports">
+          <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2 L8 11 M4 7 L8 11 L12 7 M3 14 L13 14"/></svg>
+          Export
+        </button>
+        <button class="icon-btn" id="theme-toggle" title="Toggle theme">
+          <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 9 A5 5 0 1 1 7 3 A4 4 0 0 0 13 9 Z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="tricolor-rule"></div>
+
+    <div class="content">
+
+      <!-- ============== OVERVIEW ============== -->
+      <section class="section" data-section="overview" data-screen-label="01 Overview">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">AeroStat Airfare Price Index · Base 2025 = 100</div>
+            <h1>Real-time Airfare Price Index</h1>
+            <div class="desc">Compiled daily from 11 airline and OTA sources across 12 city-pairs and 5 advance-purchase windows. Consumed by NSO/CPI compilation and RBI monetary-policy inputs.</div>
+          </div>
+          <div class="tools">
+            <button class="btn" id="btn-add-sector"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2 V14 M2 8 H14"/></svg>Add sector</button>
+            <button class="btn primary" id="btn-publish-index"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="12" height="12" rx="1"/><path d="M5 8 L7 10 L11 6"/></svg>Publish index</button>
+          </div>
+        </div>
+
+        <!-- Hero — 3 variants -->
+        <div class="mb-24">
+          <!-- V1: Statesman -->
+          <div class="hero v1" data-variant="v1">
+            <div>
+              <div class="v1-label" style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 14px;">AeroStat · 7 September 2026 · 06:00 IST</div>
+              <div class="v1-num" style="font-family: var(--font-serif); font-weight: 400; font-size: 96px; line-height: 1; letter-spacing: -0.04em; font-feature-settings: 'lnum', 'tnum';"></div>
+              <div class="index-foot" style="margin-top: 18px; display: flex; align-items: center; gap: 24px; color: var(--ink-2); font-size: 13.5px;">
+                <div><div class="xs mono muted" style="text-transform: uppercase; letter-spacing: 0.06em;">Day</div><div class="v1-delta mt-8"></div></div>
+                <div><div class="xs mono muted" style="text-transform: uppercase; letter-spacing: 0.06em;">Week</div><div class="v1-week mt-8"></div></div>
+                <div><div class="xs mono muted" style="text-transform: uppercase; letter-spacing: 0.06em;">Month</div><div class="v1-month mt-8"></div></div>
+              </div>
+            </div>
+            <div>
+              <div class="v1-spark"></div>
+              <div class="serif" style="font-size: 18px; line-height: 1.5; color: var(--ink-2); border-left: 2px solid var(--accent); padding-left: 20px; margin-top: 24px; max-width: 480px;">
+                Domestic airfares held above trend for a fourth consecutive week, driven by pre-festival demand on leisure corridors and constrained T+1 availability on metro pairs.
+              </div>
+              <div class="mono xs muted" style="margin-top: 12px;">— NSO Weekly Read · Prepared by the Airfare Statistics Unit</div>
+            </div>
+          </div>
+
+          <!-- V2: Ticker -->
+          <div class="hero v2" data-variant="v2" style="display: none;">
+            <div class="ticker-strip">
+              <div class="ticker-track"></div>
+            </div>
+            <div class="ticker-body">
+              <div>
+                <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 10px;">AeroStat · Headline</div>
+                <div class="v2-big"></div>
+                <div class="v2-delta" style="margin-top: 10px;"></div>
+              </div>
+              <div class="mini-grid">
+                <div class="mini v2-mini-week"><div class="lb">Week ago</div><div class="val"></div><div class="lb-d mt-8"></div></div>
+                <div class="mini v2-mini-month"><div class="lb">Month ago</div><div class="val"></div><div class="lb-d mt-8"></div></div>
+                <div class="mini v2-mini-high"><div class="lb">90d high</div><div class="val"></div><div class="lb-d mt-8"><span class="mono muted xs">14 Aug</span></div></div>
+                <div class="mini v2-mini-low"><div class="lb">90d low</div><div class="val"></div><div class="lb-d mt-8"><span class="mono muted xs">02 Jul</span></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- V3: Report -->
+          <div class="hero v3" data-variant="v3" style="display: none;">
+            <div>
+              <div class="r-eyebrow">Today in airfares · Vol. IV, No. 251</div>
+              <div class="r-head">Fares hold above trend as pre-festival window opens on leisure corridors.</div>
+              <div class="r-lede">The Real-time Airfare Price Index closed at its highest reading since the base period on the back of persistent tightness in T+1 availability. Metro corridors softened marginally; non-metro leisure led the composite.</div>
+              <div class="r-byline">
+                <span>Airfare Statistics Unit · NSO</span>
+                <span>·</span>
+                <span>7 Sep 2026 · 06:00 IST</span>
+                <span>·</span>
+                <span>Basket: 12 sectors</span>
+              </div>
+            </div>
+            <div class="r-number">
+              <div style="display: flex; align-items: baseline; gap: 14px;">
+                <div class="n v3-num"></div>
+                <div class="v3-delta"></div>
+              </div>
+              <div class="mono xs muted" style="margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase;">AeroStat headline · base 2025 = 100</div>
+              <div class="v3-spark" style="margin-top: 20px;"></div>
+              <div class="mono xs muted" style="margin-top: 4px;">30-day trend →</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI row -->
+        <div class="grid g-4 mb-24" id="overview-kpis"></div>
+
+        <!-- Trend chart + sub-indices -->
+        <div class="grid g-3-2 mb-24">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">AeroStat composite · 90-day trend</div>
+                <div class="panel-sub">Daily close · base period Jan 2025 = 100.00</div>
+              </div>
+              <div class="row" style="gap: 12px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-3);">
+                <span><span style="display: inline-block; width: 10px; height: 2px; background: var(--accent); vertical-align: middle; margin-right: 4px;"></span>AeroStat composite</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div id="trend-chart" class="chart-wrap"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Sub-indices <span class="n">latest</span></div>
+            </div>
+            <div class="panel-body" style="padding: 12px;">
+              <div id="sub-indices" style="display: flex; flex-direction: column; gap: 8px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Route table -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Route basket · current fares</div>
+              <div class="panel-sub">Median quoted fare across all carriers · click a row to drill down</div>
+            </div>
+            <div class="chip"><span class="mono">12 sectors</span></div>
+          </div>
+          <div class="panel-body p-0">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Route</th>
+                  <th style="text-align:right;">T+1</th>
+                  <th style="text-align:right;">T+7</th>
+                  <th style="text-align:right;">T+15</th>
+                  <th style="text-align:right;">T+30</th>
+                  <th style="text-align:right;">T+45</th>
+                  <th style="text-align:right;">Week-over-week</th>
+                  <th style="text-align:right; width: 120px;">30d</th>
+                </tr>
+              </thead>
+              <tbody id="route-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== HEATMAP ============== -->
+      <section class="section" data-section="heatmap" data-screen-label="02 Sector heatmap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">All routes × lead-time windows</div>
+            <h1>Sector Heatmap</h1>
+            <div class="desc">Current fare deviation from route-window baseline, colour-coded green (below baseline) → saffron (near baseline) → red (above baseline). Baseline is the 90-day median for each (route, window) pair.</div>
+          </div>
+          <div class="tools heatmap-scale">
+            <span>−15%</span>
+            <div class="bar"></div>
+            <span>+15%</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Route × advance-purchase window</div>
+              <div class="panel-sub">Cell value: INR fare · Colour: % vs baseline · Hover for detail</div>
+            </div>
+          </div>
+          <div class="panel-body p-tight" style="padding: 4px 8px 12px;">
+            <table id="heatmap-table" class="heatmap"></table>
+          </div>
+        </div>
+
+        <div class="grid g-2 mt-8" style="margin-top: 24px;">
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Reading the heatmap</div></div>
+            <div class="panel-body">
+              <div style="display: grid; grid-template-columns: 20px 1fr; gap: 12px 16px; font-size: 13px; color: var(--ink-2); line-height: 1.55;">
+                <span style="color: var(--india-green); font-weight: 600;">■</span><span>Fare <b>below</b> the (route, window) 90-day median — favourable for consumers on this corridor.</span>
+                <span style="color: var(--saffron); font-weight: 600;">■</span><span>Fare within ±3% of baseline — routine pricing behaviour.</span>
+                <span style="color: var(--up); font-weight: 600;">■</span><span>Fare <b>above</b> baseline — signals demand pressure or capacity constraint; feeds into AeroStat composite weight.</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Composite weight (PSD-style)</div></div>
+            <div class="panel-body">
+              <div class="mono xs muted" style="margin-bottom: 8px;">route weight × window weight → cell contribution</div>
+              <div class="code-block" style="font-size: 11.5px;"><span class="cm"># AeroStat composite formula</span>
+AeroStat_t = Σ_r Σ_w  w_r · w_w · (P_rwt / P_rw,0)
+        <span class="cm"># where</span>
+        w_r  = DGCA passenger-traffic share (route)
+        w_w  = advance-purchase window weight
+               T+1: 0.10 · T+7: 0.30 · T+15: 0.25
+               T+30: 0.20 · T+45: 0.15
+        P_rwt = median quoted fare (route, window, day t)
+        P_rw,0 = base-period median (2025-01)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== ROUTE DRILL-DOWN ============== -->
+      <section class="section" data-section="route" data-screen-label="03 Route drill-down">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Route-level analysis</div>
+            <h1 id="rd-title">DEL → BOM</h1>
+            <div class="desc">Fare distribution, carrier composition and lead-time behaviour for the selected city-pair. Sample sizes reflect deduplicated quotes over the trailing 24 hours.</div>
+          </div>
+          <div class="tools">
+            <button class="btn" id="btn-compare-routes"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 8 L12 8 M8 4 L8 12"/></svg>Compare routes</button>
+          </div>
+        </div>
+
+        <div class="grid g-2-1 mb-24">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">Median fare · <span id="rd-lt-label" class="mono" style="font-size: 12px; color: var(--ink-3); font-weight: 400; letter-spacing: 0;">T+7 advance-purchase</span></div>
+              </div>
+              <div class="pill-group" id="rd-lt-pills"></div>
+            </div>
+            <div class="panel-body">
+              <div class="serif" id="rd-fare" style="font-size: 48px; letter-spacing: -0.02em; font-weight: 500; color: var(--ink); line-height: 1;"></div>
+              <div class="mono xs muted mt-8" style="text-transform: uppercase; letter-spacing: 0.06em;">All-carrier median · N ≈ 3,200 quotes / 24h</div>
+
+              <div class="mb-16" style="margin-top: 24px;">
+                <div class="mono xs muted mb-8" style="text-transform: uppercase; letter-spacing: 0.06em;">60-day fare history</div>
+                <div id="rd-history"></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Select route</div><span class="chip mono">12</span></div>
+            <div class="panel-body p-0" style="max-height: 460px; overflow-y: auto;">
+              <div id="rd-select-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid g-2 mb-24">
+          <div class="panel">
+            <div class="panel-head"><div>
+              <div class="panel-title">Fare distribution by window</div>
+              <div class="panel-sub">Whisker: min/max · box: IQR · line: median</div>
+            </div></div>
+            <div class="panel-body">
+              <div id="rd-boxplot"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div>
+              <div class="panel-title">Carrier median · T+7</div>
+              <div class="panel-sub">Base fare only, excl. taxes and UDF</div>
+            </div></div>
+            <div class="panel-body">
+              <div id="rd-carriers"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Carrier breakdown</div></div>
+          <div class="panel-body p-0">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Carrier</th>
+                  <th style="text-align:right;">Total fare</th>
+                  <th style="text-align:right;">Base</th>
+                  <th style="text-align:right;">Taxes + UDF</th>
+                  <th style="text-align:right;">Sample n</th>
+                  <th style="text-align:right;">Week-over-week</th>
+                </tr>
+              </thead>
+              <tbody id="rd-carrier-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== ELASTICITY ============== -->
+      <section class="section" data-section="elasticity" data-screen-label="04 Lead-time curves">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Advance-purchase behaviour</div>
+            <h1>Lead-time Elasticity</h1>
+            <div class="desc">Fare-to-lead-time curves for the top-weighted metro corridors. The T+1 vs T+30 spread quantifies how much dynamic pricing punishes late bookers on each sector.</div>
+          </div>
+        </div>
+
+        <div class="panel mb-24">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Fare by advance-purchase window</div>
+              <div class="panel-sub">Top 5 sectors by passenger-traffic weight</div>
+            </div>
+            <div class="chart-legend" id="elast-legend" style="padding: 0;"></div>
+          </div>
+          <div class="panel-body">
+            <div id="elast-chart"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Elasticity coefficients</div></div>
+          <div class="panel-body p-0">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Route</th>
+                  <th style="text-align:right;">T+1</th>
+                  <th style="text-align:right;">T+7</th>
+                  <th style="text-align:right;">T+30</th>
+                  <th style="text-align:right;">T+1 vs T+30</th>
+                  <th style="text-align:right;">T+15 vs T+30</th>
+                  <th style="text-align:right;">σ (vol.)</th>
+                </tr>
+              </thead>
+              <tbody id="elast-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== CARRIERS ============== -->
+      <section class="section" data-section="carriers" data-screen-label="05 Carrier compare">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Airline-level view</div>
+            <h1>Carrier Comparison</h1>
+            <div class="desc">Five carriers cover ~100% of domestic scheduled traffic. Market share weights are inherited from DGCA monthly summaries and refreshed quarterly.</div>
+          </div>
+        </div>
+
+        <div class="grid g-2 mb-24">
+          <div class="panel">
+            <div class="panel-head"><div>
+              <div class="panel-title">Market share</div>
+              <div class="panel-sub">DGCA passenger traffic · Jul 2026</div>
+            </div></div>
+            <div class="panel-body">
+              <div id="carrier-share"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div>
+              <div class="panel-title">Median fare across basket</div>
+              <div class="panel-sub">T+7 window · all 12 sectors averaged</div>
+            </div></div>
+            <div class="panel-body">
+              <div id="carrier-avg-fare"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Carrier index · 60-day trend</div>
+              <div class="panel-sub">Each carrier's basket-weighted fare index, base = 100</div>
+            </div>
+            <div class="chart-legend" id="carrier-legend" style="padding: 0;"></div>
+          </div>
+          <div class="panel-body">
+            <div id="carrier-trend"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== BACK-TEST ============== -->
+      <section class="section" data-section="backtest" data-screen-label="06 DGCA back-test">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Validation · Sep 2025 → Aug 2026</div>
+            <h1>DGCA Back-test</h1>
+            <div class="desc">AeroStat daily readings collapsed to monthly means and compared against DGCA's published monthly average domestic fare for the same sectors. Correlation, MAE, RMSE and MAPE quantify how faithfully AeroStat tracks the official benchmark at monthly cadence — while offering daily granularity in between.</div>
+          </div>
+          <div class="tools">
+            <button class="btn"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 8 L7 4 L7 6 L13 6 L13 10 L7 10 L7 12 Z"/></svg>Download report</button>
+          </div>
+        </div>
+
+        <div class="panel mb-24">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">AeroStat vs DGCA monthly averages</div>
+              <div class="panel-sub">Both series indexed to Sep 2025 = 100</div>
+            </div>
+            <div class="chart-legend" id="bt-legend" style="padding: 0;"></div>
+          </div>
+          <div class="panel-body">
+            <div id="bt-chart"></div>
+          </div>
+          <div class="bt-stats" id="bt-stats"></div>
+        </div>
+
+        <div class="grid g-2">
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Divergence analysis</div></div>
+            <div class="panel-body">
+              <p style="margin: 0 0 12px; color: var(--ink-2); line-height: 1.6;">The strongest divergences occur in months where <b>within-month volatility</b> is high — DGCA's monthly mean smooths through spikes that AeroStat captures at daily cadence. This is a <i>feature</i>, not a defect: AeroStat surfaces the shocks that manual collection misses.</p>
+              <ul style="margin: 0; padding-left: 18px; color: var(--ink-2); line-height: 1.8; font-size: 13px;">
+                <li><span class="mono" style="color: var(--accent);">Oct 25</span> — Diwali corridor: AeroStat +6.8% vs DGCA +2.1%</li>
+                <li><span class="mono" style="color: var(--accent);">Dec 25</span> — Year-end leisure: AeroStat +4.2% vs DGCA +3.9%</li>
+                <li><span class="mono" style="color: var(--accent);">May 26</span> — Summer peak: AeroStat +5.1% vs DGCA +4.4%</li>
+              </ul>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Methodology notes</div></div>
+            <div class="panel-body" style="color: var(--ink-2); line-height: 1.65; font-size: 13px;">
+              <p style="margin: 0 0 10px;"><b>Collapsing daily → monthly</b> · Simple arithmetic mean of daily AeroStat readings, weighted by trading days.</p>
+              <p style="margin: 0 0 10px;"><b>Sector alignment</b> · DGCA reports 6 metro city-pairs; AeroStat basket includes all 6 plus 6 additional corridors. Back-test restricts to the DGCA intersection.</p>
+              <p style="margin: 0;"><b>Base-period reconciliation</b> · Both series re-based to Sep 2025 = 100 for comparability.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== ALERTS ============== -->
+      <section class="section" data-section="alerts" data-screen-label="07 Alerts">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Anomaly detection · Last 24 hours</div>
+            <h1>Alerts</h1>
+            <div class="desc">Fare-anomaly rules run continuously on the deduplicated stream. High-severity alerts fire on ≥2σ deviation from route-window baseline; medium on 1–2σ; low on data-quality issues.</div>
+          </div>
+        </div>
+
+        <div class="grid g-4 mb-24" id="alert-counts"></div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Recent alerts</div>
+              <div class="panel-sub">Ordered by time · click for incident detail</div>
+            </div>
+            <div class="row gap-8">
+              <span class="badge err">2 high</span>
+              <span class="badge warn">2 medium</span>
+              <span class="badge info">2 low</span>
+            </div>
+          </div>
+          <div class="panel-body p-0">
+            <div id="alerts-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== SCRAPER OPS ============== -->
+      <section class="section" data-section="scraper" data-screen-label="08 Scraper ops" data-scraper-only>
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Ingestion · 11 sources</div>
+            <h1>Scraper Operations</h1>
+            <div class="desc">Daily-scheduled Playwright / Scrapy workers with proxy rotation, session persistence and robots.txt compliance. Each source is queried across all basket sectors and lead-time windows.</div>
+          </div>
+          <div class="tools">
+            <div class="chip"><span class="status-dot" style="background: var(--india-green);"></span>All sources nominal</div>
+            <button class="btn"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3 V8 L11 10"/><circle cx="8" cy="8" r="6"/></svg>Run cycle</button>
+          </div>
+        </div>
+
+        <div class="grid g-4 mb-24" id="scraper-kpis"></div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Source job status · latest cycle</div>
+              <div class="panel-sub">11 workers · 5 airline endpoints, 6 OTA endpoints</div>
+            </div>
+          </div>
+          <div class="panel-body p-0">
+            <div class="job-row" style="background: var(--panel-alt); border-bottom: 1px solid var(--border);">
+              <div></div>
+              <div class="src" style="font-family: var(--font-sans); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600;">Source</div>
+              <div class="m" style="text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.06em;">Quotes</div>
+              <div class="m" style="text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.06em;">Latency</div>
+              <div class="m" style="text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.06em;">Last run</div>
+              <div class="m" style="padding-left: 8px; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.06em;">Success</div>
+            </div>
+            <div id="scraper-jobs"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== PIPELINE ============== -->
+      <section class="section" data-section="pipeline" data-screen-label="09 Pipeline">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Data pipeline · Daily 06:00 IST</div>
+            <h1>Pipeline & Cleaning</h1>
+            <div class="desc">Raw HTML → parsed quotes → deduplicated → cleaned → indexed. Every stage is idempotent, checkpointed and observable. Cleaning rules follow NSO's outlier-treatment guidance for high-frequency price data.</div>
+          </div>
+        </div>
+
+        <div class="panel mb-24">
+          <div class="panel-head"><div class="panel-title">Pipeline flow</div><span class="chip mono">Last 24h</span></div>
+          <div class="pipeline" id="pipeline-flow"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Cleaning ledger</div></div>
+          <div class="bt-stats" id="cleaning-stats" style="grid-template-columns: repeat(3, 1fr); border-top: none;"></div>
+        </div>
+      </section>
+
+      <!-- ============== API CONSOLE ============== -->
+      <section class="section" data-section="api" data-screen-label="10 API console">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">For NSO, RBI & authorised consumers</div>
+            <h1>API Console</h1>
+            <div class="desc">REST + JSON. Bearer-token auth issued by MoSPI. All responses conform to the NSO Open Data schema (SDMX-compatible). Rate limit: 600 req/hr per key.</div>
+          </div>
+          <div class="tools">
+            <button class="btn" id="btn-openapi-spec"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3 H13 V13 H3 Z M6 6 H10 M6 9 H10"/></svg>OpenAPI spec</button>
+            <button class="btn primary" id="btn-get-api-key"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 8 L10 8 M6 5 L10 5 M6 11 L10 11"/><rect x="3" y="3" width="10" height="10" rx="1"/></svg>Get API key</button>
+          </div>
+        </div>
+
+        <div class="grid g-1-2 mb-24">
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Endpoints <span class="n">v1</span></div></div>
+            <div class="panel-body p-0">
+              <div id="endpoint-list"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head" id="api-sample-title">
+              <span class="method get">GET</span> <span class="mono">/v1/index/latest</span>
+            </div>
+            <div class="panel-body" id="api-sample"></div>
+          </div>
+        </div>
+
+        <div class="grid g-3">
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Rate limits</div></div>
+            <div class="panel-body">
+              <div class="mono" style="font-size: 13px; color: var(--ink-2); line-height: 1.9;">
+                <div>NSO tier: <span style="color: var(--ink); font-weight: 500;">600 req/hr</span></div>
+                <div>RBI tier: <span style="color: var(--ink); font-weight: 500;">1,800 req/hr</span></div>
+                <div>Research: <span style="color: var(--ink); font-weight: 500;">120 req/hr</span></div>
+                <div>Bulk export: <span style="color: var(--ink); font-weight: 500;">4 / day</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">SLAs</div></div>
+            <div class="panel-body">
+              <div class="mono" style="font-size: 13px; color: var(--ink-2); line-height: 1.9;">
+                <div>Index publication: <span style="color: var(--india-green); font-weight: 500;">06:00 IST ± 5min</span></div>
+                <div>API availability: <span style="color: var(--india-green); font-weight: 500;">99.5% monthly</span></div>
+                <div>P95 latency: <span style="color: var(--ink); font-weight: 500;">180ms</span></div>
+                <div>Data completeness: <span style="color: var(--india-green); font-weight: 500;">≥ 98%</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Data governance</div></div>
+            <div class="panel-body">
+              <div class="mono" style="font-size: 13px; color: var(--ink-2); line-height: 1.9;">
+                <div>Retention: <span style="color: var(--ink); font-weight: 500;">10 years raw</span></div>
+                <div>PII: <span style="color: var(--india-green); font-weight: 500;">none collected</span></div>
+                <div>Robots.txt: <span style="color: var(--india-green); font-weight: 500;">compliant</span></div>
+                <div>ToS: <span style="color: var(--india-green); font-weight: 500;">reviewed 04/26</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- ============== ROUTE COMPARISON MODAL ============== -->
+<div class="modal-overlay" id="compare-modal" aria-hidden="true" style="display: none;">
+  <div class="modal-card compare-modal-card">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow" style="margin-bottom: 2px;">Corridor Benchmarking</div>
+        <div class="modal-title">Compare Domestic Flight Corridors</div>
+      </div>
+      <button class="close modal-close" id="compare-modal-close" title="Close modal">×</button>
+    </div>
+
+    <div class="modal-toolbar">
+      <div class="compare-selector-bar">
+        <div class="compare-route-pick">
+          <label class="xs mono muted">Route A</label>
+          <select id="compare-route-a" class="select-styled"></select>
+        </div>
+        <button class="icon-btn swap-btn" id="compare-swap-routes" title="Swap routes">
+          <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h10M10 3l3 3-3 3M13 10H3M6 13l-3-3 3-3"/></svg>
+        </button>
+        <div class="compare-route-pick">
+          <label class="xs mono muted">Route B</label>
+          <select id="compare-route-b" class="select-styled"></select>
+        </div>
+      </div>
+
+      <div class="compare-leadtime-bar">
+        <label class="xs mono muted">Advance Purchase Window</label>
+        <div class="pill-group" id="compare-lt-pills"></div>
+      </div>
+    </div>
+
+    <div class="modal-body compare-modal-body" id="compare-modal-content"></div>
+  </div>
+</div>
+
+<!-- ============== DATE PICKER MODAL ============== -->
+<div class="modal-overlay" id="date-picker-modal" aria-hidden="true" style="display: none;">
+  <div class="modal-card" style="max-width: 460px;">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">Time Horizon</div>
+        <div class="modal-title">Select Date Window</div>
+      </div>
+      <button class="close modal-close" id="date-picker-close" title="Close">×</button>
+    </div>
+    <div class="modal-body" style="padding: 20px;">
+      <div class="mono xs muted mb-8" style="text-transform: uppercase; letter-spacing: 0.06em;">Standard Rolling Horizons</div>
+      <div class="grid g-3 mb-16" style="gap: 8px;">
+        <button class="btn" data-date-preset="7d" style="justify-content: center;">7 Days</button>
+        <button class="btn" data-date-preset="30d" style="justify-content: center;">30 Days</button>
+        <button class="btn" data-date-preset="90d" style="justify-content: center;">90 Days</button>
+      </div>
+      <div class="mono xs muted mb-8" style="text-transform: uppercase; letter-spacing: 0.06em;">Custom Date Window</div>
+      <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+        <div style="flex: 1;">
+          <label class="mono xs muted" style="display: block; margin-bottom: 4px;">Start Date</label>
+          <input type="date" id="date-custom-start" class="select-styled" value="2026-06-10" style="width: 100%;">
+        </div>
+        <div style="flex: 1;">
+          <label class="mono xs muted" style="display: block; margin-bottom: 4px;">End Date</label>
+          <input type="date" id="date-custom-end" class="select-styled" value="2026-09-07" style="width: 100%;">
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button class="btn" id="btn-cancel-date">Cancel</button>
+        <button class="btn primary" id="btn-apply-custom-date">Apply Range</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== CURRENCY SWITCHER MODAL ============== -->
+<div class="modal-overlay" id="currency-modal" aria-hidden="true" style="display: none;">
+  <div class="modal-card" style="max-width: 440px;">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">Denomination & FX</div>
+        <div class="modal-title">Display Currency</div>
+      </div>
+      <button class="close modal-close" id="currency-modal-close" title="Close">×</button>
+    </div>
+    <div class="modal-body p-0">
+      <div id="currency-options-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== EXPORT OPTIONS MODAL ============== -->
+<div class="modal-overlay" id="export-modal" aria-hidden="true" style="display: none;">
+  <div class="modal-card" style="max-width: 520px;">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">Official Data Services</div>
+        <div class="modal-title">Export Datasets & Reports</div>
+      </div>
+      <button class="close modal-close" id="export-modal-close" title="Close">×</button>
+    </div>
+    <div class="modal-body" style="padding: 20px;">
+      <div class="desc mb-16">Download calibrated high-frequency price indices and quote distributions formatted for analytical systems.</div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button class="btn" id="export-csv-action" style="padding: 12px; justify-content: space-between; text-align: left;">
+          <div>
+            <div style="font-weight: 500; color: var(--ink);">Airfare Microdata (CSV)</div>
+            <div class="xs muted">12 routes · 5 advance purchase windows · DGCA weights</div>
+          </div>
+          <span class="chip mono">.CSV</span>
+        </button>
+        <button class="btn" id="export-json-action" style="padding: 12px; justify-content: space-between; text-align: left;">
+          <div>
+            <div style="font-weight: 500; color: var(--ink);">NSO Open Data Schema (JSON)</div>
+            <div class="xs muted">Full time series, SDMX metadata & backtest statistics</div>
+          </div>
+          <span class="chip mono">.JSON</span>
+        </button>
+        <button class="btn" id="export-print-action" style="padding: 12px; justify-content: space-between; text-align: left;">
+          <div>
+            <div style="font-weight: 500; color: var(--ink);">Official Release Bulletin (Print / PDF)</div>
+            <div class="xs muted">Executive briefing document for DGCA & RBI review</div>
+          </div>
+          <span class="chip mono">PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== ADD SECTOR MODAL ============== -->
+<div class="modal-overlay" id="add-sector-modal" aria-hidden="true" style="display: none;">
+  <div class="modal-card" style="max-width: 480px;">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">Basket Management</div>
+        <div class="modal-title">Add Sector to Index</div>
+      </div>
+      <button class="close modal-close" id="add-sector-close" title="Close">×</button>
+    </div>
+    <form id="add-sector-form" class="modal-body" style="padding: 20px;">
+      <div class="desc mb-16">Register a new high-density domestic city pair into the continuous scraping and index weighting pipeline.</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <div>
+          <label class="mono xs muted" style="display: block; margin-bottom: 4px;">Origin</label>
+          <select id="sector-origin" class="select-styled" style="width: 100%;"></select>
+        </div>
+        <div>
+          <label class="mono xs muted" style="display: block; margin-bottom: 4px;">Destination</label>
+          <select id="sector-dest" class="select-styled" style="width: 100%;"></select>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        <div>
+          <label class="mono xs muted" style="display: block; margin-bottom: 4px;">DGCA Traffic Share (%)</label>
+          <input type="number" step="0.1" min="0.1" max="25" value="4.5" id="sector-weight" class="select-styled" style="width: 100%;">
+        </div>
+        <div>
+          <label class="mono xs muted" style="display: block; margin-bottom: 4px;">Base Fare (₹)</label>
+          <input type="number" step="100" min="1000" max="30000" value="5400" id="sector-basefare" class="select-styled" style="width: 100%;">
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="btn" id="btn-cancel-sector">Cancel</button>
+        <button type="submit" class="btn primary" id="btn-submit-sector">Add Sector</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============== PUBLISH INDEX MODAL ============== -->
+<div class="modal-overlay" id="publish-modal" aria-hidden="true" style="display: none;">
+  <div class="modal-card" style="max-width: 500px;">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">MoSPI / NSO Authority</div>
+        <div class="modal-title">Publish Daily Price Index</div>
+      </div>
+      <button class="close modal-close" id="publish-modal-close" title="Close">×</button>
+    </div>
+    <div class="modal-body" style="padding: 20px;">
+      <div class="desc mb-16">Authorize official release of the AeroStat index for CPI food & transport deflation models and RBI macroeconomic inputs.</div>
+      <div class="panel p-12 mb-16" style="background: var(--panel-alt); border: 1px solid var(--border); padding: 12px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span class="mono xs muted">Index Level:</span>
+          <strong class="mono" id="publish-index-val">118.42</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span class="mono xs muted">Publication Cadence:</span>
+          <span class="mono xs">06:00 IST · Official Daily</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span class="mono xs muted">Cryptographic Digest:</span>
+          <span class="mono xs" style="color: var(--accent);">SHA256: 7f8a92b10e...</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span class="mono xs muted">Recipients:</span>
+          <span class="mono xs">NSO CPI Unit · DGCA · RBI MPC</span>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button class="btn" id="btn-cancel-publish">Cancel</button>
+        <button class="btn primary" id="btn-confirm-publish">Authorize & Transmit Release</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== API KEY MODAL ============== -->
+<div class="modal-overlay" id="api-key-modal" aria-hidden="true" style="display: none;">
+  <div class="modal-card" style="max-width: 540px;">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">MoSPI Open Data Portal</div>
+        <div class="modal-title">API Authentication Key</div>
+      </div>
+      <button class="close modal-close" id="api-key-close" title="Close">×</button>
+    </div>
+    <div class="modal-body" style="padding: 20px;">
+      <div class="desc mb-16">Your institutional API bearer key has been generated with NSO standard quota (600 requests / hour).</div>
+      <div class="code-block mb-16" style="padding: 12px; position: relative;">
+        <div class="mono" id="api-key-text" style="color: var(--india-green); word-break: break-all; font-weight: 500;">mospi_live_4b9a78f2e1c0d5a3982e71b5</div>
+        <button class="btn btn-sm" id="btn-copy-key" style="margin-top: 10px; font-size: 11px;">Copy Key</button>
+      </div>
+      <div class="mono xs muted mb-8">Example Request Header</div>
+      <div class="code-block" style="font-size: 11.5px; padding: 10px;">curl -H "Authorization: Bearer mospi_live_4b9a78..." http://localhost:8000/v1/index/latest</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== DIAGNOSTICS MODAL ============== -->
+<div class="modal-overlay" id="diagnostics-modal" aria-hidden="true" style="display: none;">
+  <div class="modal-card" style="max-width: 720px; max-height: 85vh;">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">Automated Verification Suite</div>
+        <div class="modal-title">Button & Control Diagnostics</div>
+      </div>
+      <button class="close modal-close" id="diagnostics-close" title="Close">×</button>
+    </div>
+    <div class="modal-body" style="padding: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div id="diag-summary-text" class="serif" style="font-size: 16px; font-weight: 500;">Ready to run diagnostic tests.</div>
+        <div id="diag-badge" class="chip mono">STANDBY</div>
+      </div>
+      <div class="panel-body p-0" style="max-height: 380px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius);">
+        <table class="compare-table" style="margin: 0;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Target Control</th>
+              <th>Selector</th>
+              <th>Action Tested</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody id="diag-results-body">
+            <tr><td colspan="5" class="center muted" style="padding: 24px;">Click "Start Diagnostics" to execute full verification suite.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+        <span class="mono xs muted" id="diag-time-elapsed">All interactive controls tested programmatically</span>
+        <button class="btn primary" id="diag-run-again">Start Diagnostics</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== TOAST NOTIFICATION ============== -->
+<div class="toast-notification" id="toast-notification" style="display: none;"></div>
+
+<!-- ============== TWEAKS PANEL ============== -->
+<div class="tweaks" id="tweaks">
+  <div class="tweaks-head">
+    <span class="t">Tweaks</span>
+    <button class="close" title="Close">×</button>
+  </div>
+  <div class="tweaks-body">
+    <div class="tw-row">
+      <div class="tw-label">Theme</div>
+      <div class="tw-seg">
+        <button data-theme-set="light">Light</button>
+        <button data-theme-set="dark">Dark</button>
+      </div>
+    </div>
+
+    <div class="tw-row">
+      <div class="tw-label">Accent colour</div>
+      <div class="tw-swatches">
+        <div class="tw-swatch" data-accent="ashoka" style="background: #0A2A66;" title="Ashoka blue"></div>
+        <div class="tw-swatch" data-accent="navy" style="background: #0F2C4B;" title="Deep navy"></div>
+        <div class="tw-swatch" data-accent="saffron" style="background: #C4611E;" title="Saffron"></div>
+        <div class="tw-swatch" data-accent="emerald" style="background: #0F6B4A;" title="Emerald"></div>
+        <div class="tw-swatch" data-accent="ink" style="background: #232733;" title="Ink"></div>
+      </div>
+    </div>
+
+    <div class="tw-row">
+      <div class="tw-label">Hero variation</div>
+      <div class="tw-seg">
+        <button data-hero-set="v1">Statesman</button>
+        <button data-hero-set="v2">Ticker</button>
+        <button data-hero-set="v3">Report</button>
+      </div>
+    </div>
+
+    <div class="tw-row">
+      <div class="tw-label">Scraper ops in nav</div>
+      <div class="tw-seg">
+        <button data-scraper-toggle="on">Show</button>
+        <button data-scraper-toggle="off">Hide</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="apix-data.js"></script>
+<script src="apix-charts.js"></script>
+<script src="apix-app.js"></script>
+</body>
+</html>
